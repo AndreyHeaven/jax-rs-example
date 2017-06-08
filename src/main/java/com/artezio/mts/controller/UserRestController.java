@@ -33,7 +33,7 @@ public class UserRestController {
     }
     @GET
     @ApiOperation("Get all users")
-    @Path("/users")
+    @Path("/")
     public Response getAll() {
 
         Collection<User> user = userDAO.getAll();

@@ -24,6 +24,14 @@ public class UserDAO {
         user.setDisplayName("User User 1");
         user.setPassword("password1");
         db.put(user.getLogin(),user);
+
+        user = new User();
+        user.setLogin("login2");
+        user.setBirthday(new Date());
+        user.setGender(Boolean.FALSE);
+        user.setDisplayName("User User 2");
+        user.setPassword("password2");
+        db.put(user.getLogin(),user);
     }
 
     public User getById(String login) {

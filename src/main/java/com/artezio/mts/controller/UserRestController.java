@@ -2,6 +2,8 @@ package com.artezio.mts.controller;
 
 import com.artezio.mts.dao.UserDAO;
 import com.artezio.mts.model.User;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -10,11 +12,15 @@ import java.util.Collection;
 /**
  * Created by araigorodskiy on 08.06.2017.
  */
-@Path("users")
+@Api(value = "/users", description = "Operations with users")
+@Produces({"application/json"})
+@Path("/users")
 public class UserRestController {
     UserDAO userDAO = UserDAO.getInstance();
 
+
     @GET
+    @ApiOperation("Get user by login")
     @Path("{login}")
     public Response getById(@PathParam("login") String login) {
 
@@ -26,6 +32,8 @@ public class UserRestController {
 
     }
     @GET
+    @ApiOperation("Get all users")
+    @Path("/users")
     public Response getAll() {
 
         Collection<User> user = userDAO.getAll();
@@ -37,6 +45,7 @@ public class UserRestController {
     }
 
     @DELETE
+    @ApiOperation("Delete user by login")
     @Path("{login}")
     public Response deleteById(@PathParam("login") String login){
         userDAO.delete(login);
@@ -44,6 +53,7 @@ public class UserRestController {
     }
 
     @POST
+    @ApiOperation("Create new user")
     public Response create(@BeanParam User user){
         try {
             userDAO.add(user);
@@ -54,6 +64,7 @@ public class UserRestController {
     }
 
     @PUT
+    @ApiOperation("Update user with given login")
     @Path("{login}")
     public Response update(@BeanParam User user){
         try {

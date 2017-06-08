@@ -2,8 +2,7 @@ package com.artezio.mts.dao;
 
 import com.artezio.mts.model.User;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by araigorodskiy on 08.06.2017.
@@ -18,14 +17,21 @@ public class UserDAO {
     HashMap<String, User> db = new HashMap<String, User>();
 
     private UserDAO() {
+        User user = new User();
+        user.setLogin("login1");
+        user.setBirthday(new Date());
+        user.setGender(Boolean.TRUE);
+        user.setDisplayName("User User 1");
+        user.setPassword("password1");
+        db.put(user.getLogin(),user);
     }
 
     public User getById(String login) {
         return db.get(login);
     }
 
-    public Collection<User> getAll() {
-        return db.values();
+    public List<User> getAll() {
+        return new ArrayList<User>(db.values());
     }
 
     public void delete(String login) {

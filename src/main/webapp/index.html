@@ -10,22 +10,26 @@
 <div ng-controller="userController">
     <h2>Управление учетными записями</h2>
 
-    <table class="table">
+    <table class="table table-hover table-striped">
         <tr>
             <th>Отображаемое имя</th>
             <th>Идентификатор учетной записи</th>
             <th>Пароль</th>
             <th>День рождения</th>
             <th>Пол</th>
+            <th></th>
         </tr>
         <tr ng-repeat="user in users">
             <td>{{user.login}}</td>
             <td>{{user.displayName}}</td>
             <td>{{user.password}}</td>
-            <td>{{user.birthday}}</td>
+            <td>{{user.birthday | date}}</td>
             <td>{{user.gender}}</td>
+            <td><button class="btn btn-danger" ng-click="delete(user)">Удалить</button><td>
         </tr>
     </table>
+
+    <button type="button" style="margin-bottom: 10px;" class="btn btn-info" ng-click="add()">Добавить</button>
 </div>
 </body>
 </html>

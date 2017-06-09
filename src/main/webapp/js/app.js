@@ -1,19 +1,56 @@
 /**
  * Created by araigorodskiy on 08.06.2017.
  */
-angular.module("accountManager", [])
-    .controller("userController", function($scope, $http) {
+var app = angular.module("accountManager", []);
 
-        //$scope.users = [{"login":"login2","displayName":"User User 2","password":"password2","birthday":1496916396207,"gender":false},{"login":"login1","displayName":"User User 1","password":"password1","birthday":1496916396206,"gender":true}];
+var url = "";
+
+//Query factory
+app.factory('userFactory', function ($http) {
+    var query = "/JaxRsMicroservice/rest/users/";
+    return {
+        getUsers: function () {
+            url = query;
+            return $http.get(url);
+        },
+        getUser: function (user) {
+            url = query + user.login;
+            return $http.get(url);
+        },
+        addUser: function (user) {
+            url = query;
+            return $http.post(url, user);
+        },
+        deleteUser: function (user) {
+            url = query + user.login;
+            return $http.delete(url);
+        },
+        updateUser: function (user) {
+            url = query + user.login;
+            return $http.put(url, user);
+        }
+    };
+});
+
+// CRUD controller
+app.controller("userController", function($scope, userFactory) {
+
         var query = "/JaxRsMicroservice/rest/users/";
 
         $scope.reload = function() {
-            $http.get(query).then(function (response) {
+            userFactory.getUsers().then(function (response) {
                 $scope.users = response.data;
+            }).catch(function (response) {
+                $scope.error = "Ошибка получения списка пользователей! " + response.status;
             });
         };
 
         $scope.add = function(personalDetail){
+            console.log("add");
+        };
+
+        $scope.edit = function(personalDetail){
+            console.log("open");
         };
 
         $scope.save = function(user){
@@ -25,13 +62,19 @@ angular.module("accountManager", [])
         };
 
         $scope.delete = function(user) {
-            if (confirm('Вы действительно хотите удалить запись?')) {
-                $http.delete(query + user.login)
-                    .then(function (response) {
-                        $scope.reload();
-                    });
-            }
+            userFactory.deleteUser(user)
+                .then(function (response) {
+                    $scope.reload();
+                }).catch(function (response) {
+                    $scope.error = "Ошибка удаления пользователя! " + response.status;
+                });
         };
 
-        $scope.reload();
-    });
+    $scope.showconfirm = function (data) {
+        $scope.user = data;
+        $('#confirmModal').modal('show');
+    };
+
+
+    $scope.reload();
+});

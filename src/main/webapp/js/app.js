@@ -174,13 +174,16 @@ app.controller('DeleteUserModalCtrl', function ($scope, $uibModalInstance, item)
     };
 });
 
-app.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, item) {
+app.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, item, $filter) {
     var $ctrl = this;
     $ctrl.item = item;
     $scope.item = item;
 
 
     $ctrl.ok = function () {
+        if (typeof item.birthday === 'object'){
+            item.birthday = $filter('date')(item.birthday,'dd.MM.yyyy');
+        }
         $uibModalInstance.close(item);
     };
 

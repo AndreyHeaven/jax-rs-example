@@ -38,7 +38,7 @@ public class UserRestController {
     public Response getAll() {
 
         Collection<User> user = userDAO.getAll();
-        return Response.ok(user != null ? user : Collections.EMPTY_LIST).build();
+        return Response.ok(user != null ? user : Collections.emptyList()).build();
     }
 
     @DELETE

@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label>Пароль</label>
-                <input type="password" class="form-control" placeholder="Пароль" ng-model="item.password">
+                <input class="form-control" placeholder="Пароль" ng-model="item.password">
             </div>
             <div class="form-group">
                 <label>Отображаемое имя</label>
@@ -30,17 +30,23 @@
             </div>
             <div class="form-group">
                 <label>Дата рождения</label>
-                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="item.birthday"
-                       is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"
-                       alt-input-formats="altInputFormats"/>
-                <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open1()"><i
-                        class="glyphicon glyphicon-calendar"></i></button>
-                </span>
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy" ng-model="item.birthday"
+                           is-open="picker.opened" datepicker-options="dateOptions" close-text="Close"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="picker.opened = true">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
             <div class="form-group">
                 <label>Пол</label>
-                <input type="checkbox" class="form-control" placeholder="Пол" ng-model="item.gender">
+                <!--<input type="checkbox" class="form-control" placeholder="Пол" ng-model="item.gender">-->
+                <select class="form-control" ng-model="item.gender">
+                    <option value="true">Мужской</option>
+                    <option value="false">Женский</option>
+                </select>
             </div>
 
         </form>

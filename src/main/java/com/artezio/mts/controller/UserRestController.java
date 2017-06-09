@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by araigorodskiy on 08.06.2017.
@@ -37,11 +38,7 @@ public class UserRestController {
     public Response getAll() {
 
         Collection<User> user = userDAO.getAll();
-        if (user != null && !user.isEmpty())
-            return Response.ok(user).build();
-        else
-            return Response.status(404).build();
-
+        return Response.ok(user != null ? user : Collections.EMPTY_LIST).build();
     }
 
     @DELETE

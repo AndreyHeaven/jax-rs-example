@@ -1,7 +1,7 @@
 /**
  * Created by araigorodskiy on 08.06.2017.
  */
-var app = angular.module("accountManager", []);
+var app = angular.module("accountManager", ['ui.bootstrap']);
 
 var url = "";
 
@@ -33,7 +33,7 @@ app.factory('userFactory', function ($http) {
 });
 
 // CRUD controller
-app.controller("userController", function($scope, userFactory) {
+app.controller("userController", function($scope, userFactory, $uibModal) {
 
         var query = "/JaxRsMicroservice/rest/users/";
 
@@ -46,19 +46,55 @@ app.controller("userController", function($scope, userFactory) {
         };
 
         $scope.add = function(personalDetail){
-            console.log("add");
+            var modalInstance = $uibModal.open({
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'AddUserModalContent.html',
+                controller: 'AddUserModalCtrl',
+                controllerAs: '$ctrl',
+                resolve: {
+                    item: function () {
+                        return {};
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (item) {
+                $scope.save(item, true);
+            }, function () {
+                //$log.info('Modal dismissed at: ' + new Date());
+            });
         };
 
         $scope.edit = function(personalDetail){
-            console.log("open");
+            var modalInstance = $uibModal.open({
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'AddUserModalContent.html',
+                controller: 'AddUserModalCtrl',
+                controllerAs: '$ctrl',
+                resolve: {
+                    item: function () {
+                        return personalDetail;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (item) {
+                $scope.save(item, false);
+            }, function () {
+                //$log.info('Modal dismissed at: ' + new Date());
+            });
         };
 
-        $scope.save = function(user){
+        $scope.save = function(user, isNew){
             if (user.login) {
-                //TODO
+                (isNew ? userFactory.addUser : userFactory.updateUser)(user);
             } else {
                 //warning
             }
+
+
         };
 
         $scope.delete = function(user) {
@@ -71,10 +107,55 @@ app.controller("userController", function($scope, userFactory) {
         };
 
     $scope.showconfirm = function (data) {
-        $scope.user = data;
-        $('#confirmModal').modal('show');
+        // $scope.user = data;
+        var modalInstance = $uibModal.open({
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'DeleteUserModalContent.html',
+            controller: 'DeleteUserModalCtrl',
+            controllerAs: '$ctrl',
+            resolve: {
+                item: function () {
+                    return data;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (item) {
+            $scope.delete(item)
+        }, function () {
+            //$log.info('Modal dismissed at: ' + new Date());
+        });
     };
 
 
     $scope.reload();
+});
+
+app.controller('DeleteUserModalCtrl', function ($scope, $uibModalInstance, item) {
+    var $ctrl = this;
+    $scope.item = item;
+
+    $ctrl.ok = function () {
+        $uibModalInstance.close(item);
+    };
+
+    $ctrl.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, item) {
+    var $ctrl = this;
+    $ctrl.item = item;
+    $scope.item = item;
+
+
+    $ctrl.ok = function () {
+        $uibModalInstance.close(item);
+    };
+
+    $ctrl.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });

@@ -1,57 +1,93 @@
 <html ng-app="accountManager">
 <head>
     <meta charset="UTF-8">
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
     <script src="js/app.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
+<script type="text/ng-template" id="AddUserModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" ng-if="!item.login">Добавление пользователя</h3>
+        <h3 class="modal-title" ng-if="item.login">Изменение пользователя</h3>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label>Логин</label>
+                <input type="email" class="form-control" placeholder="Логин" ng-value="item.login">
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" class="form-control" placeholder="Пароль" ng-value="item.password">
+            </div>
+            <div class="form-group">
+                <label>Отображаемое имя</label>
+                <input class="form-control" placeholder="Отображаемое имя" ng-value="item.displayName">
+            </div>
+            <div class="form-group">
+                <label>Дата рождения</label>
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="item.birthday"
+                       is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                       alt-input-formats="altInputFormats"/>
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open1()"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+            <div class="form-group">
+                <label>Пол</label>
+                <input type="checkbox" class="form-control" placeholder="Пол" ng-value="item.gender">
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+        <button class="btn btn-link" type="button" ng-click="$ctrl.cancel()">Отмена</button>
+    </div>
+</script>
+<script type="text/ng-template" id="DeleteUserModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Удаление</h3>
+    </div>
+    <div class="modal-body">
+        Вы действительно хотите удалить запись c логином "{{item.login}}"?
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+        <button class="btn btn-link" type="button" ng-click="$ctrl.cancel()">Отмена</button>
+    </div>
+</script>
+
 <div ng-controller="userController">
     <h2>Управление учетными записями</h2>
-
-    <table class="table table-hover table-striped">
-        <tr>
-            <th>Отображаемое имя</th>
-            <th>Идентификатор учетной записи</th>
-            <th>Пароль</th>
-            <th>День рождения</th>
-            <th>Пол</th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr ng-repeat="user in users">
-            <td>{{user.login}}</td>
-            <td>{{user.displayName}}</td>
-            <td>{{user.password}}</td>
-            <td>{{user.birthday | date}}</td>
-            <td>{{user.gender}}</td>
-            <td><a ng-click="edit(user)"><span class="glyphicon glyphicon-pencil"/></a><td>
-            <td><a ng-click="showconfirm(user)"><span class="glyphicon glyphicon-trash"/></a><td>
-        </tr>
-    </table>
-
-    <button type="button" style="margin-bottom: 10px;" class="btn btn-info" ng-click="add()">Добавить</button>
-
-
-    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm Action</h4>
-                </div>
-                <div class="modal-body">
-                    Вы действительно хотите удалить запись?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-ng-click="delete()">Ok</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
+    <div class="col-xs-6">
+        <table class="table table-hover table-striped">
+            <tr>
+                <th>Отображаемое имя</th>
+                <th>Идентификатор учетной записи</th>
+                <th>Пароль</th>
+                <th>День рождения</th>
+                <th>Пол</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="user in users">
+                <td>{{user.login}}</td>
+                <td>{{user.displayName}}</td>
+                <td>{{user.password}}</td>
+                <td>{{user.birthday | date}}</td>
+                <td>{{user.gender}}</td>
+                <td><a ng-click="edit(user)"><span class="glyphicon glyphicon-pencil"/></a>
+                    <a ng-click="showconfirm(user)"><span class="glyphicon glyphicon-trash"/></a>
+                </td>
+            </tr>
+        </table>
     </div>
-
+    <button type="button" style="margin-bottom: 10px;" class="btn btn-info" ng-click="add()">Добавить</button>
 </div>
 </body>
 </html>

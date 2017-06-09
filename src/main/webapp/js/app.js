@@ -4,7 +4,6 @@
 angular.module("accountManager", [])
     .controller("userController", function($scope, $http) {
 
-        //$scope.users = [{"login":"login2","displayName":"User User 2","password":"password2","birthday":1496916396207,"gender":false},{"login":"login1","displayName":"User User 1","password":"password1","birthday":1496916396206,"gender":true}];
         var query = "/JaxRsMicroservice/rest/users/";
 
         $scope.reload = function() {
@@ -14,6 +13,11 @@ angular.module("accountManager", [])
         };
 
         $scope.add = function(personalDetail){
+            console.log("add");
+        };
+
+        $scope.edit = function(personalDetail){
+            console.log("open");
         };
 
         $scope.save = function(user){

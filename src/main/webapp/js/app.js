@@ -19,7 +19,17 @@ app.factory('userFactory', function ($http) {
         },
         addUser: function (user) {
             url = query;
-            return $http.post(url, user);
+            return $http({
+                method: 'POST',
+                url: url,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: user});
         },
         deleteUser: function (user) {
             url = query + user.login;
@@ -27,7 +37,17 @@ app.factory('userFactory', function ($http) {
         },
         updateUser: function (user) {
             url = query + user.login;
-            return $http.put(url, user);
+            return $http({
+                method: 'PUT',
+                url: url,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: user});
         }
     };
 });
@@ -60,7 +80,10 @@ app.controller("userController", function($scope, userFactory, $uibModal) {
             });
 
             modalInstance.result.then(function (item) {
-                $scope.save(item, true);
+                $scope.save(item, true).then(function () {
+                    $scope.reload()
+                });
+
             }, function () {
                 //$log.info('Modal dismissed at: ' + new Date());
             });
@@ -81,7 +104,9 @@ app.controller("userController", function($scope, userFactory, $uibModal) {
             });
 
             modalInstance.result.then(function (item) {
-                $scope.save(item, false);
+                $scope.save(item, false).then(function () {
+                    $scope.reload()
+                });
             }, function () {
                 //$log.info('Modal dismissed at: ' + new Date());
             });
@@ -89,7 +114,7 @@ app.controller("userController", function($scope, userFactory, $uibModal) {
 
         $scope.save = function(user, isNew){
             if (user.login) {
-                (isNew ? userFactory.addUser : userFactory.updateUser)(user);
+                return (isNew ? userFactory.addUser : userFactory.updateUser)(user);
             } else {
                 //warning
             }

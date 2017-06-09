@@ -1,5 +1,6 @@
 package com.artezio.mts.model;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
 import java.util.Date;
@@ -30,7 +31,7 @@ public class User {
      * true == male
      */
     @FormParam("gender")
-    private Boolean gender;
+    private Boolean gender = Boolean.FALSE;
 
     public String getDisplayName() {
         return displayName;

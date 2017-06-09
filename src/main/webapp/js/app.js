@@ -18,7 +18,9 @@ app.factory('userFactory', function ($http) {
             return $http.get(url);
         },
         addUser: function (user) {
-            url = query;
+            var usr = angular.copy(user);
+            url = query + usr.login;
+            delete usr.login;
             return $http({
                 method: 'POST',
                 url: url,
@@ -36,7 +38,9 @@ app.factory('userFactory', function ($http) {
             return $http.delete(url);
         },
         updateUser: function (user) {
-            url = query + user.login;
+            var usr = angular.copy(user);
+            url = query + usr.login;
+            delete usr.login;
             return $http({
                 method: 'PUT',
                 url: url,

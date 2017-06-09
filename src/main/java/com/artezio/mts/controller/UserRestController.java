@@ -51,6 +51,7 @@ public class UserRestController {
 
     @POST
     @ApiOperation("Create new user")
+    @Path("{login}")
     public Response create(@BeanParam User user){
         try {
             userDAO.add(user);

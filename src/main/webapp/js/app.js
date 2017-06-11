@@ -59,7 +59,7 @@ app.factory('userFactory', function ($http) {
 // CRUD controller
 app.controller("userController", function($scope, userFactory, $uibModal) {
 
-        var query = "/JaxRsMicroservice/rest/users/";
+        $scope.genders = [{key: "true", value: "Мужской"}, {key: "false", value: "Женский"}];
 
         $scope.reload = function() {
             userFactory.getUsers().then(function (response) {
@@ -94,6 +94,9 @@ app.controller("userController", function($scope, userFactory, $uibModal) {
         };
 
         $scope.edit = function(personalDetail){
+            personalDetail.gender = personalDetail.gender != null
+                ? (personalDetail.gender ? "true" : "false") : null;
+
             var modalInstance = $uibModal.open({
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
@@ -181,9 +184,9 @@ app.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, item, $f
 
 
     $ctrl.ok = function () {
-        if (typeof item.birthday === 'object'){
+        //if (typeof item.birthday === 'object'){
             item.birthday = $filter('date')(item.birthday,'dd.MM.yyyy');
-        }
+        //}
         $uibModalInstance.close(item);
     };
 

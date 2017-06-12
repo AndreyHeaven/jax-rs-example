@@ -10,48 +10,57 @@
 </head>
 <body>
 <script type="text/ng-template" id="AddUserModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title" ng-if="!item.login">Добавление пользователя</h3>
-        <h3 class="modal-title" ng-if="item.login">Изменение пользователя</h3>
-    </div>
-    <div class="modal-body" ng-controller="userController">
-        <form>
-            <div class="form-group">
-                <label>Логин</label>
-                <input class="form-control" placeholder="Логин" ng-model="item.login">
-            </div>
-            <div class="form-group">
-                <label>Пароль</label>
-                <input class="form-control" placeholder="Пароль" ng-model="item.password">
-            </div>
-            <div class="form-group">
-                <label>Отображаемое имя</label>
-                <input class="form-control" placeholder="Отображаемое имя" ng-model="item.displayName">
-            </div>
-            <div class="form-group">
-                <label>Дата рождения</label>
-                <p class="input-group">
-                    <input type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy" ng-model="item.birthday"
-                           is-open="picker.opened" datepicker-options="dateOptions" close-text="Close"/>
-                    <span class="input-group-btn">
+    <div ng-controller="userController">
+        <div class="modal-header">
+            <h3 class="modal-title" ng-if="!item.id">Добавление пользователя</h3>
+            <h3 class="modal-title" ng-if="item.id">Изменение пользователя</h3>
+        </div>
+        <form name="editUser">
+            <div class="modal-body">
+                <div class="has-error" ng-show="error">
+                    <p class="help-block">{{error}}</p>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : editUser.login.$error.required}">
+                    <label>Логин</label>
+                    <input class="form-control" name="login" placeholder="Логин" ng-model="item.login" required>
+                    <p class="help-block" ng-show="editUser.login.$error.required">Поле должно быть заполнено</p>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input class="form-control" placeholder="Пароль" ng-model="item.password">
+                </div>
+                <div class="form-group">
+                    <label>Отображаемое имя</label>
+                    <input class="form-control" placeholder="Отображаемое имя" ng-model="item.displayName">
+                </div>
+                <div class="form-group">
+                    <label>Дата рождения</label>
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy"
+                               ng-model="item.birthday"
+                               is-open="picker.opened" datepicker-options="dateOptions" close-text="Close"/>
+                        <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="picker.opened = true">
                             <i class="glyphicon glyphicon-calendar"></i>
                         </button>
                     </span>
-                </p>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label>Пол</label>
+                    <select class="form-control" ng-model="item.gender">
+                        <option ng-repeat="g in genders" value="{{g.key}}">{{g.value}}</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Пол</label>
-                <select class="form-control" ng-model="item.gender">
-                    <option ng-repeat="g in genders" value="{{g.key}}">{{g.value}}</option>
-                </select>
-            </div>
-
         </form>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
-        <button class="btn btn-link" type="button" ng-click="$ctrl.cancel()">Отмена</button>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.ok(!item.id)"
+                    ng-disabled="editUser.login.$error.required">Сохранить
+            </button>
+            <button class="btn btn-link" type="button" ng-click="$ctrl.cancel()">Отмена</button>
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="DeleteUserModalContent.html">
@@ -67,7 +76,7 @@
     </div>
 </script>
 
-<div ng-controller="userController">
+<div ng-controller="userController" style="margin: 10px">
     <h2>Управление учетными записями</h2>
     <div class="col-md-8">
         <table class="table table-hover table-striped">
@@ -84,9 +93,9 @@
                 <td>{{user.displayName}}</td>
                 <td>{{user.password}}</td>
                 <td>{{user.birthday | date: 'dd.MM.yyyy'}}</td>
-                <td>{{user.gender}}</td>
+                <td>{{user.gender | gender}}</td>
                 <td><a ng-click="edit(user)"><span class="glyphicon glyphicon-pencil"/></a>
-                    <a ng-click="showconfirm(user)"><span class="glyphicon glyphicon-trash"/></a>
+                    <a ng-click="offerDel(user)"><span class="glyphicon glyphicon-trash"/></a>
                 </td>
             </tr>
         </table>

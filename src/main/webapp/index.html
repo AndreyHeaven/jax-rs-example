@@ -23,7 +23,7 @@
 
                 <div class="form-group" ng-class="{ 'has-error' : editUser.login.$error.required}">
                     <label>Логин</label>
-                    <input class="form-control" name="login" placeholder="Логин" ng-model="item.login" required ng-readonly="!!item.login">
+                    <input class="form-control" name="login" placeholder="Логин" ng-model="item.login" required>
                     <p class="help-block" ng-show="editUser.login.$error.required">Поле должно быть заполнено</p>
                 </div>
                 <div class="form-group">
@@ -101,7 +101,7 @@
         </table>
     </div>
     <div class="col-xs-12">
-        <button type="button" style="margin-bottom: 10px;" class="btn btn-info" ng-click="add()">Добавить</button>
+        <button type="button" style="margin-bottom: 10px;" class="btn btn-info" ng-click="edit()">Добавить</button>
     </div>
 </div>
 </body>

@@ -1,7 +1,9 @@
 package com.artezio.mts.dao;
 
 /**
- * Created by araigorodskiy on 13.06.2017.
+ * Репозиторий
+ *
+ * @author  araigorodskiy
  */
 public interface Repository<ID, T> {
 

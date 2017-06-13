@@ -5,7 +5,9 @@ import com.artezio.mts.model.User;
 import java.util.List;
 
 /**
- * Created by araigorodskiy on 13.06.2017.
+ * Репозиторий
+ *
+ * @author  araigorodskiy
  */
 public interface UserRepository extends Repository<String, User> {
     /**

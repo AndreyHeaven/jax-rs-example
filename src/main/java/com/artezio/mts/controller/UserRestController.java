@@ -15,7 +15,7 @@ import java.util.Collections;
 /**
  * Контроллер управления учетными записями.
  * <p>
- * Created by araigorodskiy on 08.06.2017.
+ * @author  araigorodskiy
  */
 @Api(value = "/users", description = "Operations with users")
 @Produces({"application/json"})

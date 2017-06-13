@@ -10,7 +10,7 @@
             </div>
 
             <div class="form-group" ng-class="{ 'has-error' : editUser.login.$error.required}">
-                <label>Логин</label>
+                <label>Идентификатор учетной записи (Login)</label>
                 <input class="form-control" name="login" placeholder="Логин" ng-model="item.login" required ng-readonly="item.id">
                 <p class="help-block" ng-show="editUser.login.$error.required">Поле должно быть заполнено</p>
             </div>

@@ -73,7 +73,8 @@ app.controller("userController", function ($scope, userFactory, $uibModal) {
     };
 
     //Диалог редактирования
-    $scope.edit = function (personalDetail) {
+    $scope.edit = function (item) {
+        var personalDetail = angular.copy(item);
         if (personalDetail) {
             personalDetail.gender = personalDetail.gender != null
                 ? (personalDetail.gender ? "true" : "false") : null;

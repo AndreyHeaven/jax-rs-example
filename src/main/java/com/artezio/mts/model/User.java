@@ -6,13 +6,14 @@ import javax.ws.rs.PathParam;
 import java.util.Date;
 
 /**
- * Created by araigorodskiy on 08.06.2017.
- *  модель данных для учетной записи:
+ *  Модель данных для учетной записи:
  *  - Отображаемое имя
  *  - Идентификатор учетной записи (Login)
  *  - Пароль
  *  - День рождения
  *  - Пол
+ *
+ *  @author  araigorodskiy
  */
 public class User {
 

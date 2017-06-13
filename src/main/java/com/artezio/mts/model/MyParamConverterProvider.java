@@ -8,7 +8,9 @@ import java.lang.reflect.Type;
 import java.util.Date;
 
 /**
- * Created by araigorodskiy on 09.06.2017.
+ * Конвертер
+ *
+ * @author  araigorodskiy
  */
 @Provider
 public class MyParamConverterProvider implements ParamConverterProvider {

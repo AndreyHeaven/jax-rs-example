@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by araigorodskiy on 09.06.2017.
+ * Дата конвертер
+ *
+ * @author  araigorodskiy
  */
 public class DateParamConverter implements ParamConverter<Date> {
     private final static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");

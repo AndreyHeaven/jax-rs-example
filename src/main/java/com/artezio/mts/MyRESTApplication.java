@@ -1,7 +1,7 @@
 package com.artezio.mts;
 
 /**
- * Created by araigorodskiy on 08.06.2017.
+ * @author  araigorodskiy
  */
 import com.artezio.mts.controller.UserRestController;
 import com.artezio.mts.model.MyParamConverterProvider;

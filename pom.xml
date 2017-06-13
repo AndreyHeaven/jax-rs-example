@@ -47,6 +47,18 @@
         <finalName>JaxRsMicroservice</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>${build.directory}/restapi</directory>
+                            <targetPath>restapi</targetPath>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>com.github.kongchen</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
                 <version>3.1.0</version>
@@ -57,9 +69,15 @@
                             <springmvc>false</springmvc>
                             <!--<attachSwaggerArtifact>true</attachSwaggerArtifact>-->
                             <basePath>/api</basePath>
+                            <swaggerDirectory>${build.directory}/restapi/doc</swaggerDirectory>
+                            <basePath>http://localhost:8080/rest</basePath>
+                            <outputPath>${build.directory}/restapi/doc/rest.html</outputPath>
+                            <!--<outputTemplate>-->
+                                <!--https://raw.github.com/kongchen/api-doc-template/master/v1.1/html.mustache-->
+                            <!--</outputTemplate>-->
                             <templatePath>${basedir}/src/main/resources/strapdown.html.hbs</templatePath>
-                            <outputPath>${project.build.directory}/generated/document.html</outputPath>
-                            <swaggerDirectory>${project.build.directory}/swagger-ui</swaggerDirectory>
+                            <!--<outputPath>${project.build.directory}/generated/document.html</outputPath>-->
+                            <!--<swaggerDirectory>${project.build.directory}/swagger-ui</swaggerDirectory>-->
                             <info>
                                 <title>Jax-RS Sample</title>
                                 <version>v1</version>

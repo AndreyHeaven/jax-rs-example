@@ -49,7 +49,7 @@ public class UserRestControllerTest extends TestCase {
      * @throws Exception
      */
     public void testDeleteById() throws Exception {
-        String login = "test2";
+        final String login = "test2";
         User user = new User(){{
             setLogin(login);
             setPassword(login);

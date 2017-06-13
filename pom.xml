@@ -49,17 +49,16 @@
             <plugin>
                 <groupId>com.github.kongchen</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.4</version>
                 <configuration>
                     <apiSources>
                         <apiSource>
                             <locations>com.artezio.mts.controller</locations>
                             <springmvc>false</springmvc>
-                            <!--<attachSwaggerArtifact>true</attachSwaggerArtifact>-->
                             <basePath>/api</basePath>
                             <templatePath>${basedir}/src/main/resources/strapdown.html.hbs</templatePath>
-                            <outputPath>${project.build.directory}/generated/document.html</outputPath>
-                            <swaggerDirectory>${project.build.directory}/swagger-ui</swaggerDirectory>
+                            <outputPath>${basedir}/generated/document.html</outputPath>
+                            <swaggerDirectory>${basedir}/generated/swagger-ui</swaggerDirectory>
                             <info>
                                 <title>Jax-RS Sample</title>
                                 <version>v1</version>
@@ -74,6 +73,7 @@
                                     <name>Apache 2.0</name>
                                 </license>
                             </info>
+                            <attachSwaggerArtifact>true</attachSwaggerArtifact>
                         </apiSource>
                     </apiSources>
                 </configuration>
@@ -90,8 +90,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
         </plugins>

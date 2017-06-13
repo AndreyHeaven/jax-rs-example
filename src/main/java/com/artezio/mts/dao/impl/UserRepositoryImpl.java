@@ -18,7 +18,7 @@ public class UserRepositoryImpl implements UserRepository {
         return ourInstance;
     }
 
-    private Map<String, User> db = Collections.synchronizedMap(new HashMap<>());
+    private Map<String, User> db = Collections.synchronizedMap(new HashMap<String, User>());
 
     private UserRepositoryImpl() {
         User user = new User();
@@ -124,7 +124,12 @@ public class UserRepositoryImpl implements UserRepository {
      */
     private Long generateKey() {
         Collection<User> vals = db.values();
-        Long max = Collections.max(vals, (o1, o2) -> o1.getId().compareTo(o2.getId())).getId();
+        Long max = Collections.max(vals, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.getId().compareTo(o2.getId());
+            }
+        }).getId();
         return max + 1L;
     }
 }

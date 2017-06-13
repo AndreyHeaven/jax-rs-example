@@ -7,7 +7,7 @@ var url = "";
 
 //Query factory
 app.factory('userFactory', function ($http) {
-    var query = "/JaxRsMicroservice/rest/users/";
+    var query = "rest/users/";
     return {
         getUsers: function () {
             url = query;
@@ -82,7 +82,7 @@ app.controller("userController", function ($scope, userFactory, $uibModal) {
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'AddUserModalContent.html',
+            templateUrl: 'views/templates/editUserModalTemplate.html',
             controller: 'AddUserModalCtrl',
             controllerAs: '$ctrl',
             resolve: {
@@ -115,7 +115,7 @@ app.controller("userController", function ($scope, userFactory, $uibModal) {
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'DeleteUserModalContent.html',
+            templateUrl: 'views/templates/deleteUserModalTemplate.html',
             controller: 'DeleteUserModalCtrl',
             controllerAs: '$ctrl',
             resolve: {

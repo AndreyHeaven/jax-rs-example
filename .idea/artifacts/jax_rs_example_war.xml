@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="jax-rs-example:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="JaxRsMicroservice.war">
-      <element id="artifact" artifact-name="jax-rs-example:war exploded" />
-    </root>
-  </artifact>
-</component>

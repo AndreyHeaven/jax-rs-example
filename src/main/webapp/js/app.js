@@ -63,6 +63,7 @@ app.controller("userController", function ($scope, userFactory, $uibModal) {
 
     $scope.genders = [{key: "true", value: "Мужской"}, {key: "false", value: "Женский"}];
 
+    //Загрузить все записи
     $scope.reload = function () {
         userFactory.getUsers().then(function (response) {
             $scope.users = response.data;
@@ -71,30 +72,12 @@ app.controller("userController", function ($scope, userFactory, $uibModal) {
         });
     };
 
-    $scope.add = function () {
-        var modalInstance = $uibModal.open({
-            ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            templateUrl: 'AddUserModalContent.html',
-            controller: 'AddUserModalCtrl',
-            controllerAs: '$ctrl',
-            resolve: {
-                item: function () {
-                    return {};
-                }
-            }
-        });
-
-        modalInstance.result.then(function (item) {
-            $scope.reload()
-        }, function () {
-            $scope.reload();
-        });
-    };
-
+    //Диалог редактирования
     $scope.edit = function (personalDetail) {
-        personalDetail.gender = personalDetail.gender != null
-            ? (personalDetail.gender ? "true" : "false") : null;
+        if (personalDetail) {
+            personalDetail.gender = personalDetail.gender != null
+                ? (personalDetail.gender ? "true" : "false") : null;
+        }
 
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'modal-title',
@@ -104,7 +87,7 @@ app.controller("userController", function ($scope, userFactory, $uibModal) {
             controllerAs: '$ctrl',
             resolve: {
                 item: function () {
-                    return personalDetail;
+                    return personalDetail ? personalDetail: {};
                 }
             }
         });
@@ -116,6 +99,7 @@ app.controller("userController", function ($scope, userFactory, $uibModal) {
         });
     };
 
+    //Удаление записи
     $scope.delete = function (user) {
         userFactory.deleteUser(user)
             .then(function (response) {
@@ -125,6 +109,7 @@ app.controller("userController", function ($scope, userFactory, $uibModal) {
         });
     };
 
+    //Диалог подтверждения удаления
     $scope.offerDel = function (data) {
         // $scope.user = data;
         var modalInstance = $uibModal.open({

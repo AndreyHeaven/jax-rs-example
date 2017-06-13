@@ -25,13 +25,14 @@ app.factory('userFactory', function ($http) {
                 method: 'POST',
                 url: url,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {
+                transformRequest: function (obj) {
                     var str = [];
-                    for(var p in obj)
+                    for (var p in obj)
                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                     return str.join("&");
                 },
-                data: user});
+                data: user
+            });
         },
         deleteUser: function (user) {
             url = query + user.login;
@@ -45,97 +46,86 @@ app.factory('userFactory', function ($http) {
                 method: 'PUT',
                 url: url,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {
+                transformRequest: function (obj) {
                     var str = [];
-                    for(var p in obj)
+                    for (var p in obj)
                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                     return str.join("&");
                 },
-                data: user});
+                data: user
+            });
         }
     };
 });
 
-// CRUD controller
-app.controller("userController", function($scope, userFactory, $uibModal) {
+// CRUD контроллер
+app.controller("userController", function ($scope, userFactory, $uibModal) {
 
-        var query = "/JaxRsMicroservice/rest/users/";
+    $scope.genders = [{key: "true", value: "Мужской"}, {key: "false", value: "Женский"}];
 
-        $scope.reload = function() {
-            userFactory.getUsers().then(function (response) {
-                $scope.users = response.data;
-            }).catch(function (response) {
-                $scope.error = "Ошибка получения списка пользователей! " + response.status;
-            });
-        };
+    $scope.reload = function () {
+        userFactory.getUsers().then(function (response) {
+            $scope.users = response.data;
+        }).catch(function (response) {
+            $scope.error = "Ошибка получения списка пользователей! " + response.status;
+        });
+    };
 
-        $scope.add = function(personalDetail){
-            var modalInstance = $uibModal.open({
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                templateUrl: 'AddUserModalContent.html',
-                controller: 'AddUserModalCtrl',
-                controllerAs: '$ctrl',
-                resolve: {
-                    item: function () {
-                        return {};
-                    }
+    $scope.add = function () {
+        var modalInstance = $uibModal.open({
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'AddUserModalContent.html',
+            controller: 'AddUserModalCtrl',
+            controllerAs: '$ctrl',
+            resolve: {
+                item: function () {
+                    return {};
                 }
-            });
-
-            modalInstance.result.then(function (item) {
-                $scope.save(item, true).then(function () {
-                    $scope.reload()
-                });
-
-            }, function () {
-                //$log.info('Modal dismissed at: ' + new Date());
-            });
-        };
-
-        $scope.edit = function(personalDetail){
-            var modalInstance = $uibModal.open({
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                templateUrl: 'AddUserModalContent.html',
-                controller: 'AddUserModalCtrl',
-                controllerAs: '$ctrl',
-                resolve: {
-                    item: function () {
-                        return personalDetail;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (item) {
-                $scope.save(item, false).then(function () {
-                    $scope.reload()
-                });
-            }, function () {
-                //$log.info('Modal dismissed at: ' + new Date());
-            });
-        };
-
-        $scope.save = function(user, isNew){
-            if (user.login) {
-                return (isNew ? userFactory.addUser : userFactory.updateUser)(user);
-            } else {
-                //warning
             }
+        });
 
+        modalInstance.result.then(function (item) {
+            $scope.reload()
+        }, function () {
+            $scope.reload();
+        });
+    };
 
-        };
+    $scope.edit = function (personalDetail) {
+        personalDetail.gender = personalDetail.gender != null
+            ? (personalDetail.gender ? "true" : "false") : null;
 
-        $scope.delete = function(user) {
-            userFactory.deleteUser(user)
-                .then(function (response) {
-                    $scope.reload();
-                }).catch(function (response) {
-                    $scope.error = "Ошибка удаления пользователя! " + response.status;
-                });
-        };
+        var modalInstance = $uibModal.open({
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'AddUserModalContent.html',
+            controller: 'AddUserModalCtrl',
+            controllerAs: '$ctrl',
+            resolve: {
+                item: function () {
+                    return personalDetail;
+                }
+            }
+        });
 
-    $scope.showconfirm = function (data) {
+        modalInstance.result.then(function (item) {
+            $scope.reload()
+        }, function () {
+            $scope.reload();
+        });
+    };
+
+    $scope.delete = function (user) {
+        userFactory.deleteUser(user)
+            .then(function (response) {
+                $scope.reload();
+            }).catch(function (response) {
+            $scope.error = "Ошибка удаления пользователя! " + response.status;
+        });
+    };
+
+    $scope.offerDel = function (data) {
         // $scope.user = data;
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'modal-title',
@@ -151,16 +141,16 @@ app.controller("userController", function($scope, userFactory, $uibModal) {
         });
 
         modalInstance.result.then(function (item) {
-            $scope.delete(item)
+            $scope.delete(item);
         }, function () {
-            //$log.info('Modal dismissed at: ' + new Date());
+            $scope.reload();
         });
     };
-
 
     $scope.reload();
 });
 
+//Контроллер удаления записи
 app.controller('DeleteUserModalCtrl', function ($scope, $uibModalInstance, item) {
     var $ctrl = this;
     $scope.item = item;
@@ -174,20 +164,40 @@ app.controller('DeleteUserModalCtrl', function ($scope, $uibModalInstance, item)
     };
 });
 
-app.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, item, $filter) {
+//Контроллер добавления/редактирования записи
+app.controller('AddUserModalCtrl', function ($scope, userFactory, $uibModalInstance, item, $filter) {
     var $ctrl = this;
     $ctrl.item = item;
     $scope.item = item;
 
 
-    $ctrl.ok = function () {
-        if (typeof item.birthday === 'object'){
-            item.birthday = $filter('date')(item.birthday,'dd.MM.yyyy');
-        }
-        $uibModalInstance.close(item);
+    $scope.save = function (user, isNew) {
+        return (isNew ? userFactory.addUser : userFactory.updateUser)(user);
+    };
+
+    $ctrl.ok = function (isNew) {
+        //if (typeof item.birthday === 'object'){
+        item.birthday = $filter('date')(item.birthday, 'dd.MM.yyyy');
+        //}
+        $scope.save(item, isNew).then(function () {
+            $uibModalInstance.close(item);
+        }).catch(function (response) {
+            if (response.status === 409) {
+                $scope.error = "Пользователь с данным логином уже существует";
+            } else {
+                $scope.error = "Ошибка сохранения";
+            }
+        });
     };
 
     $ctrl.cancel = function () {
         $uibModalInstance.dismiss('cancel');
+    };
+});
+
+//Фильтр для пола
+app.filter('gender', function () {
+    return function (item) {
+        return (item != null ? (item ? "Мужской" : "Женский") : '');
     };
 });

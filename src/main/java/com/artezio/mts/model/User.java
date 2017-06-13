@@ -15,6 +15,10 @@ import java.util.Date;
  *  - Пол
  */
 public class User {
+
+    @FormParam("id")
+    Long id;
+
     @PathParam("login")
     private String login;
 
@@ -32,6 +36,14 @@ public class User {
      */
     @FormParam("gender")
     private Boolean gender = Boolean.FALSE;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getDisplayName() {
         return displayName;

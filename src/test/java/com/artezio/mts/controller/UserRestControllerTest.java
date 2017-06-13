@@ -23,7 +23,7 @@ public class UserRestControllerTest extends TestCase {
      * @throws Exception
      */
     public void testGetById() throws Exception {
-        String login = "test1";
+        final String login = "test1";
         User user = new User(){{
             setLogin(login);
             setPassword(login);
@@ -68,7 +68,7 @@ public class UserRestControllerTest extends TestCase {
      * @throws Exception
      */
     public void testCreate() throws Exception {
-        String login = "test3";
+        final String login = "test3";
         User user = new User(){{
             setLogin(login);
             setPassword(login);
@@ -85,7 +85,7 @@ public class UserRestControllerTest extends TestCase {
      * @throws Exception
      */
     public void testUpdate() throws Exception {
-        String login = "test4";
+        final String login = "test4";
         User user = new User(){{
             setLogin(login);
             setPassword(login);

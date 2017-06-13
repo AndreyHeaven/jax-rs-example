@@ -3,7 +3,7 @@ package com.artezio.mts.dao;
 /**
  * Created by araigorodskiy on 13.06.2017.
  */
-public interface DAO<ID, T> {
+public interface Repository<ID, T> {
 
     /**
      * Получение записи по login

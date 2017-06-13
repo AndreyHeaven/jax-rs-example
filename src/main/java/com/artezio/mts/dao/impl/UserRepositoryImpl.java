@@ -1,7 +1,6 @@
 package com.artezio.mts.dao.impl;
 
-import com.artezio.mts.dao.DAO;
-import com.artezio.mts.dao.UserDAO;
+import com.artezio.mts.dao.UserRepository;
 import com.artezio.mts.dao.UserExistsException;
 import com.artezio.mts.model.User;
 
@@ -12,16 +11,16 @@ import java.util.*;
  * <p>
  * Created by araigorodskiy on 08.06.2017.
  */
-public class UserDAOImpl implements UserDAO {
-    private static UserDAOImpl ourInstance = new UserDAOImpl();
+public class UserRepositoryImpl implements UserRepository {
+    private static UserRepositoryImpl ourInstance = new UserRepositoryImpl();
 
-    public static UserDAOImpl getInstance() {
+    public static UserRepositoryImpl getInstance() {
         return ourInstance;
     }
 
-    Map<String, User> db = Collections.synchronizedMap(new HashMap<>());
+    private Map<String, User> db = Collections.synchronizedMap(new HashMap<>());
 
-    private UserDAOImpl() {
+    private UserRepositoryImpl() {
         User user = new User();
         user.setId(0L);
         user.setLogin("login1");

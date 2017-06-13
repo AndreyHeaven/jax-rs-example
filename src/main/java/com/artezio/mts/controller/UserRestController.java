@@ -1,6 +1,7 @@
 package com.artezio.mts.controller;
 
 import com.artezio.mts.dao.UserDAO;
+import com.artezio.mts.dao.impl.UserDAOImpl;
 import com.artezio.mts.dao.UserExistsException;
 import com.artezio.mts.model.User;
 import io.swagger.annotations.Api;
@@ -20,7 +21,7 @@ import java.util.Collections;
 @Produces({"application/json"})
 @Path("/users")
 public class UserRestController {
-    UserDAO userDAO = UserDAO.getInstance();
+    UserDAO userDAO = UserDAOImpl.getInstance();
 
 
     /**

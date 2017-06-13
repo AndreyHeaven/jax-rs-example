@@ -1,6 +1,7 @@
 package com.artezio.mts.controller;
 
 import com.artezio.mts.dao.UserDAO;
+import com.artezio.mts.dao.impl.UserDAOImpl;
 import com.artezio.mts.model.User;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by araigorodskiy on 13.06.2017.
  */
 public class UserRestControllerTest extends TestCase {
-    UserDAO dao = UserDAO.getInstance();
+    UserDAO dao = UserDAOImpl.getInstance();
 
     /**
      * Тест получения записи
